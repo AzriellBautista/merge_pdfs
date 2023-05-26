@@ -97,7 +97,7 @@ def sort_pdfs(files: list[str], sort_option: str) -> list[str]:
     is_flag=True,
     help="Skip confirmation prompt."
 )
-def main(yes, files, dir, pattern, from_list, sort, output):
+def main(yes, files, dir, pattern, from_list, sort, output) -> None:
     """
     Merges a list of PDF files into one PDF file.
     """
@@ -117,6 +117,10 @@ def main(yes, files, dir, pattern, from_list, sort, output):
     if sort:
         pdfs = sort_pdfs(pdfs, sort)
 
+    if not pdfs:
+        click.echo(click.style("No PDFs found.", fg="red"))
+        return
+    
     click.echo(click.style(f"Found {len(pdfs)} PDFs to merge:", fg="blue"))
     [click.echo(f"{index+1:>3} {pdf}") for index, pdf in enumerate(pdfs)]
 
